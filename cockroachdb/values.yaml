@@ -354,6 +354,41 @@ init:
     #   cpu: "10m"
     #   memory: "128Mi"
 
+# Kubernetes Job which runs sql statements on updates of the helm chart.
+# Primarily designed to set up databases and users for later use
+update:
+  # Enable/disable this feature
+  enabled: true
+
+  # Additional labels to apply to this Job and its Pod.
+  labels:
+    app.kubernetes.io/component: update
+
+  # Additional annotations to apply to the Pod of this Job.
+  annotations: {}
+
+  # Affinity rules for scheduling the Pod of this Job.
+  # https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#node-affinity
+  affinity: {}
+
+  # Node selection constraints for scheduling the Pod of this Job.
+  # https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+  nodeSelector: {}
+
+  # Taints to be tolerated by the Pod of this Job.
+  # https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+  tolerations: []
+
+  resources: {}
+
+  # The sql statements to run on helm upgrades. Keep in mind, that these statements 
+  # will run multiple times.
+  # sql: |-
+  #   CREATE DATABASE IF NOT EXISTS test-database;
+  #   CREATE USER IF NOT EXISTS roach WITH PASSWORD null; 
+  #   ALTER USER roach WITH PASSWORD 'my-secret-password';
+  #   GRANT CREATE ON DATABASE test-database TO roach;
+
 
 # Whether to run securely using TLS certificates.
 tls:
